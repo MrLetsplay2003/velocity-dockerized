@@ -1,0 +1,30 @@
+#!/bin/sh
+
+meta_dir="docker_meta"
+
+if test ! -f "$meta_dir/setup_done"; then
+	if test "$VELOCITY_SECRET" = "REPLACE_THIS_WITH_A_RANDOM_SECRET"; then
+		echo "Refusing to configure Velocity with insecure secret"
+		exit 1
+	fi
+
+	echo "$VELOCITY_SECRET" > forwarding.secret
+
+	mkdir -p "$meta_dir" && touch "$meta_dir/setup_done"
+else
+	echo "Setup is done"
+fi
+
+apiURL=https://api.papermc.io/v2/projects/velocity
+
+version=$(curl -X GET $apiURL | jq -r ".versions[-1]")
+echo "Version is $version"
+
+build=$(curl -X GET $apiURL/versions/$version/builds | jq -r ".builds[-1].build")
+echo "Build is $build"
+
+url=$apiURL/versions/$version/builds/$build/downloads/velocity-$version-$build.jar
+echo "Full URL is: $url"
+
+echo "Downloading to $PWD"
+wget -O velocity.jar $url

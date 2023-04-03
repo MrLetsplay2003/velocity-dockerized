@@ -1,0 +1,37 @@
+services:
+  velocity:
+    image: mrletsplay/velocity
+    ports:
+      - "25565:25577"
+    volumes:
+      - "./velocity:/velocity"
+    networks:
+      - velocity
+    environment:
+      - "VELOCITY_SECRET=${VELOCITY_SECRET}"
+  server1:
+    image: mrletsplay/paper:1.18.2
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./server1:/minecraft"
+    networks:
+      - velocity
+    environment:
+      - "EULA=${EULA}"
+      - "VELOCITY_ENABLE=${VELOCITY_ENABLE}"
+      - "VELOCITY_SECRET=${VELOCITY_SECRET}"
+  server2:
+    image: mrletsplay/paper:1.18.2
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./server2:/minecraft"
+    networks:
+      - velocity
+    environment:
+      - "EULA=${EULA}"
+      - "VELOCITY_ENABLE=${VELOCITY_ENABLE}"
+      - "VELOCITY_SECRET=${VELOCITY_SECRET}"
+networks:
+  velocity:
