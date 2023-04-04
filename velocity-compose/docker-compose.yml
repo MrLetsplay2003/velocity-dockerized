@@ -10,7 +10,7 @@ services:
     environment:
       - "VELOCITY_SECRET=${VELOCITY_SECRET}"
   server1:
-    image: mrletsplay/paper:1.18.2
+    image: mrletsplay/paper:1.19.4
     stdin_open: true
     tty: true
     volumes:
