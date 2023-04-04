@@ -1,13 +1,8 @@
 #!/bin/sh
 
-if test "$EULA" != "true"; then
-	echo "You need to accept the Mojang EULA (using -e EULA=true) to run the server"
-	exit 1
-fi
-
 meta_dir="docker_meta"
 
-if test ! -f "$meta_dir/setup_done"; then
+if test ! -f "$meta_dir/config_done"; then
 	# TODO: Use config/paper-global.yml with new config keys for 1.19+ Paper
 	config_path="paper.yml"
 
@@ -35,10 +30,11 @@ EOF
 
 	mkdir -p "$meta_dir" && touch "$meta_dir/setup_done"
 else
-	echo "Setup is done"
+	echo "Configuration is done"
 fi
 
-version=$1
+echo $MC_VERSION
+version=$MC_VERSION
 echo "Downloading version $version"
 
 apiURL=https://api.papermc.io/v2/projects/paper
@@ -53,3 +49,6 @@ echo "Downloading to $PWD"
 wget -O paper.jar $url
 
 echo "eula=true" > eula.txt
+
+echo "> $@"
+exec "$@"

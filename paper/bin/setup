@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if test "$EULA" != "true"; then
+	echo "You need to accept the Mojang EULA (using -e EULA=true) to run the server"
+	exit 1
+fi
+
+usermod -u $UID minecraft
+groupmod -g $GID minecraft
+chown -R minecraft:minecraft /minecraft
+
+exec sudo -E -u minecraft configure_and_start "$@"

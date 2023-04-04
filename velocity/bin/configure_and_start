@@ -28,3 +28,6 @@ echo "Full URL is: $url"
 
 echo "Downloading to $PWD"
 wget -O velocity.jar $url
+
+echo "> $@"
+exec "$@"

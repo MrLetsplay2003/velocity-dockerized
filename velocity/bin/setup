@@ -1,0 +1,7 @@
+#!/bin/sh
+
+usermod -u $UID velocity
+groupmod -g $GID velocity
+chown -R velocity:velocity /velocity
+
+exec sudo -E -u velocity configure_and_start "$@"
