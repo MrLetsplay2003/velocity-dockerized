@@ -1,6 +1,8 @@
 services:
   velocity:
     image: mrletsplay/velocity
+    stdin_open: true
+    tty: true
     ports:
       - "25565:25577"
     volumes:
