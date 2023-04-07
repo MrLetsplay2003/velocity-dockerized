@@ -11,6 +11,7 @@ services:
       - velocity
     environment:
       - "VELOCITY_SECRET=${VELOCITY_SECRET}"
+      - "VELOCITY_DONT_DOWNLOAD_ON_START=${VELOCITY_DONT_DOWNLOAD_ON_START}"
   server1:
     image: mrletsplay/paper:1.19.4
     stdin_open: true
@@ -23,6 +24,7 @@ services:
       - "EULA=${EULA}"
       - "VELOCITY_ENABLE=${VELOCITY_ENABLE}"
       - "VELOCITY_SECRET=${VELOCITY_SECRET}"
+      - "PAPER_DONT_DOWNLOAD_ON_START=${PAPER_DONT_DOWNLOAD_ON_START}"
   server2:
     image: mrletsplay/paper:1.18.2
     stdin_open: true
@@ -35,5 +37,6 @@ services:
       - "EULA=${EULA}"
       - "VELOCITY_ENABLE=${VELOCITY_ENABLE}"
       - "VELOCITY_SECRET=${VELOCITY_SECRET}"
+      - "PAPER_DONT_DOWNLOAD_ON_START=${PAPER_DONT_DOWNLOAD_ON_START}"
 networks:
   velocity:
