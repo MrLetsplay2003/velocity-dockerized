@@ -7,8 +7,7 @@ RUN apk add --upgrade sudo shadow openjdk17 curl jq
 
 ADD ./bin /usr/local/bin
 
-RUN groupadd -g $GID velocity
-RUN useradd -u $UID -g $GID velocity
+RUN useradd velocity
 
 RUN mkdir /velocity && chown -R velocity /velocity
 
