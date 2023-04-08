@@ -3,28 +3,44 @@
 meta_dir="docker_meta"
 
 if test ! -f "$meta_dir/config_done"; then
-	# TODO: Use config/paper-global.yml with new config keys for 1.19+ Paper
-	config_path="paper.yml"
+	if test "$PAPER_NEW_CONFIG" != "true"; then
+		config_path="paper.yml"
+	else
+		mkdir "config"
+		config_path="config/paper-global.yml"
+	fi
 
 	config=""
 
 	if test "$VELOCITY_ENABLE" = "true"; then
 		echo "online-mode=false" > server.properties
 
-		velocity=$(cat << EOF
+		if test "$PAPER_NEW_CONFIG" != "true"; then
+			velocity=$(cat << EOF
 settings:
   velocity-support:
     enabled: true
     online-mode: true
     secret: '$VELOCITY_SECRET'
 EOF
-		)
+			)
+		else
+			velocity=$(cat << EOF
+proxies:
+  velocity:
+    enabled: true
+    online-mode: true
+    secret: '$VELOCITY_SECRET'
+EOF
+			)
+		fi
+
 
 		config="${config}${velocity}"
 	fi
 
 	if test ! -z "$config"; then
-		echo "Writing config"
+		echo "Writing config to $config_path"
 		echo "$config" > $config_path
 	fi
 

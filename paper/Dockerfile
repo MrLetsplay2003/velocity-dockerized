@@ -8,8 +8,7 @@ RUN apk add --upgrade sudo shadow $JAVA curl jq
 
 ADD ./bin /usr/local/bin
 
-RUN groupadd -g $GID minecraft
-RUN useradd -u $UID -g $GID minecraft
+RUN useradd minecraft
 
 RUN mkdir /minecraft && chown -R minecraft /minecraft
 
@@ -21,6 +20,9 @@ EXPOSE 25565
 
 ARG MC_VERSION
 ENV MC_VERSION=${MC_VERSION:-1.19.4}
+
+ARG PAPER_NEW_CONFIG
+ENV PAPER_NEW_CONFIG=${PAPER_NEW_CONFIG:-false}
 
 ENTRYPOINT ["setup"]
 CMD ["java", "-Xmx2G", "-Xms2G", "-jar", "paper.jar"]
