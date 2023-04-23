@@ -1,0 +1,15 @@
+#!/bin/sh
+
+apiURL=https://api.papermc.io/v2/projects/velocity
+
+version=$(curl -X GET $apiURL | jq -r ".versions[-1]")
+echo "Version is $version"
+
+build=$(curl -X GET "$apiURL/versions/$version/builds" | jq -r ".builds[-1].build")
+echo "Build is $build"
+
+url="$apiURL/versions/$version/builds/$build/downloads/velocity-$version-$build.jar"
+echo "Full URL is: $url"
+
+echo "Downloading to $PWD"
+wget -O velocity.jar "$url"

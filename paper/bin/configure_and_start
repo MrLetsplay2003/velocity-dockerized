@@ -46,26 +46,13 @@ EOF
 
 	echo "eula=true" > eula.txt
 
-	mkdir -p "$meta_dir" && touch "$meta_dir/setup_done"
+	mkdir -p "$meta_dir" && touch "$meta_dir/config_done"
 else
 	echo "Configuration is done"
 fi
 
-if test "$PAPER_DONT_DOWNLOAD_ON_START" != "true"; then
-	echo $MC_VERSION
-	version=$MC_VERSION
-	echo "Downloading version $version"
-
-	apiURL=https://api.papermc.io/v2/projects/paper
-
-	build=$(curl -X GET $apiURL/versions/$version/builds | jq -r ".builds[-1].build")
-	echo "Build is $build"
-
-	url=$apiURL/versions/$version/builds/$build/downloads/paper-$version-$build.jar
-	echo "Full URL is: $url"
-
-	echo "Downloading to $PWD"
-	wget -O paper.jar $url
+if test ! -f "paper.jar" -o "$PAPER_UPDATE_ON_START" == "true"; then
+	update_paper
 else
 	echo "Skipping Paper download"
 fi
