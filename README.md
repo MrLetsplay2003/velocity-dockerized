@@ -25,10 +25,23 @@ Replace the default servers with your server names and use `yourServerName:25565
 Below this section, there should also be a `[forced-hosts]` section. Here you can configure domain names for your servers if you have any. If you don't, just remove them (or comment them out using `#`s)
 
 ### (Optional) Further configuration
-
 The configuration for Velocity be further customized, take a look at the [Velocity documentation](https://docs.papermc.io/velocity/configuration) for more details.
 
 You can also configure your servers as you like, take a look at the [Paper documentation](https://docs.papermc.io/paper/reference/global-configuration) for more details.
 
 ### Running the network
 With this configuration, you are good to go. Just start the network again using `docker compose up -d` and you should be able to join a server via the proxy.
+
+## Advanced config
+
+### Skipping initial setup
+This is useful if you already have a Minecraft server that you want to use in this image.
+
+Create a folder called `docker_meta` with a file called `config_done` inside it. This will tell the setup script to not initialize config files when launching the image.
+
+### Paper/Velocity updates
+#### Manual
+If you want to update Velocity/Paper manually, run `docker compose run yourservername update_velocity` or `docker compose run yourservername update_paper` respectively.
+
+#### Automatic
+If you want to download the newest version of Velocity/Paper every time it starts, set the `PAPER_UPDATE_ON_START` or `VELOCITY_UPDATE_ON_START` environment variables to `true`.
