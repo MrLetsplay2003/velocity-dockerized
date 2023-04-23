@@ -1,0 +1,43 @@
+#!/bin/sh
+
+meta_dir="docker_meta"
+
+if test ! -f "$meta_dir/config_done"; then
+	download_fabricproxy
+
+	mkdir -p config
+	config_path="config/FabricProxy-Lite.toml"
+
+	config=""
+
+	if test "$VELOCITY_ENABLE" = "true"; then
+		echo "online-mode=false" > server.properties
+
+			velocity=$(cat << EOF
+secret = "$VELOCITY_SECRET"
+EOF
+			)
+
+		config="${config}${velocity}"
+	fi
+
+	if test ! -z "$config"; then
+		echo "Writing config to $config_path"
+		echo "$config" > $config_path
+	fi
+
+	echo "eula=true" > eula.txt
+
+	mkdir -p "$meta_dir" && touch "$meta_dir/config_done"
+else
+	echo "Configuration is done"
+fi
+
+if test ! -f "fabric.jar" -o "$FABRIC_UPDATE_ON_START" == "true"; then
+	update_fabric
+else
+	echo "Skipping Fabric download"
+fi
+
+echo "> $@"
+exec "$@"

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+version=$MC_VERSION
+echo "Updating Fabric version $version"
+
+apiURL=https://meta.fabricmc.net/v2/versions
+
+latestLoader=$(curl -X GET "$apiURL/loader" | jq -r ".[0].version")
+echo "Latest loader: $latestLoader"
+
+latestInstaller=$(curl -X GET "$apiURL/installer" | jq -r ".[0].version")
+echo "Latest installer: $latestInstaller"
+
+url="$apiURL/loader/$version/$latestLoader/$latestInstaller/server/jar"
+echo "Full URL is: $url"
+
+echo "Downloading to $PWD"
+wget -O fabric.jar "$url"

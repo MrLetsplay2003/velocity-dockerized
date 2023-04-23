@@ -1,0 +1,15 @@
+#!/bin/sh
+
+version=$MC_VERSION
+echo "Downloading FabricProxy for version $version"
+
+apiURL="https://api.modrinth.com/v2/project/fabricproxy-lite/version?loaders=%5B%22fabric%22%5D&game_versions=%5B%22$version%22%5D"
+
+url=$(curl -X GET "$apiURL" | jq -r ".[0].files[0].url")
+echo "FabricProxy download URL: $url"
+
+modFolder=$PWD/mods
+mkdir -p "$modFolder"
+
+echo "Downloading to $modFolder"
+wget -O "$modFolder/FabricProxy.jar" "$url"
