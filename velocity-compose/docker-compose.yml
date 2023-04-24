@@ -3,6 +3,7 @@ services:
     image: mrletsplay/velocity
     stdin_open: true
     tty: true
+    stop_grace_period: 10m
     ports:
       - "25565:25577"
     volumes:
@@ -16,6 +17,7 @@ services:
     image: mrletsplay/paper:1.19.4
     stdin_open: true
     tty: true
+    stop_grace_period: 10m
     volumes:
       - "./server1:/minecraft"
     networks:
@@ -29,6 +31,7 @@ services:
     image: mrletsplay/paper:1.18.2
     stdin_open: true
     tty: true
+    stop_grace_period: 10m
     volumes:
       - "./server2:/minecraft"
     networks:
