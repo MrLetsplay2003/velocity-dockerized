@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MrLetsplay2003 <mr.letsplay2003@gmail.com>
+Date: Thu, 8 Dec 2022 19:11:41 +0100
+Subject: [PATCH] Remove end portal patch
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 22cd5f0e40d7e3cd04793a9dda29d113428fa093..fd241cf9cd9086407fdca71a3336949c8b009e0c 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -511,7 +511,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+     // Paper end - optimise entity tracking
+     // Paper start - make end portalling safe
+-    public BlockPos portalBlock;
++    /*public BlockPos portalBlock;
+     public ServerLevel portalWorld;
+     public void tickEndPortal() {
+         BlockPos pos = this.portalBlock;
+@@ -538,7 +538,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             return;
+         }
+         this.teleportTo(worldserver, null);
+-    }
++    }*/
+     // Paper end - make end portalling safe
+ 
+     public Entity(EntityType<?> type, Level world) {
+@@ -2898,7 +2898,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             }
+ 
+             this.processPortalCooldown();
+-            this.tickEndPortal(); // Paper - make end portalling safe
++            //this.tickEndPortal(); // Paper - make end portalling safe
+         }
+     }
+ 
+diff --git a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
+index 15c5cccfe02c924c02f605eb47dd0b420b189891..1529fd5ecc196404d566520893630b160d82ee38 100644
+--- a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
+@@ -53,9 +53,19 @@ public class EndPortalBlock extends BaseEntityBlock {
+                 // return; // CraftBukkit - always fire event in case plugins wish to change it
+             }
+ 
++            // CraftBukkit start - Entity in portal
++            EntityPortalEnterEvent event = new EntityPortalEnterEvent(entity.getBukkitEntity(), new org.bukkit.Location(world.getWorld(), pos.getX(), pos.getY(), pos.getZ()));
++            world.getCraftServer().getPluginManager().callEvent(event);
++
++            if (entity instanceof ServerPlayer) {
++                ((ServerPlayer) entity).changeDimension(worldserver, PlayerTeleportEvent.TeleportCause.END_PORTAL);
++                return;
++            }
++            // CraftBukkit end
++            entity.changeDimension(worldserver);
+             // Paper start - move all of this logic into portal tick
+-            entity.portalWorld = ((ServerLevel)world);
+-            entity.portalBlock = pos.immutable();
++            //entity.portalWorld = ((ServerLevel)world);
++            //entity.portalBlock = pos.immutable();
+             // Paper end - move all of this logic into portal tick
+         }
+ 

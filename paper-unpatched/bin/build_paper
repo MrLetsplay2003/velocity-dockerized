@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if test ! -f "paper.jar" -o "$PAPER_REBUILD" == "true"; then
+	echo "Building Paper"
+	cd /build
+
+	git config --global user.name "nobody"
+	git config --global user.email "nobody@example.com"
+	git clone https://github.com/PaperMC/Paper
+	cd Paper
+	git checkout ver/$MC_VERSION # Will fail for newest version
+
+	cp -rv /build/patches/* patches/server
+
+	./gradlew applyPatches
+	./gradlew createReobfBundlerJar
+	cp build/libs/paper-bundler-*-reobf.jar /minecraft/paper.jar
+
+	cd /minecraft
+fi
+
+echo "Run setup"
+
+PAPER_UPDATE_ON_START=false exec setup "$@"

@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MrLetsplay2003 <mr.letsplay2003@gmail.com>
+Date: Sat, 27 Aug 2022 14:25:07 +0200
+Subject: [PATCH] Remove sand duping fix
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
+index b2d1a17867cdbaad0c6e5c2376c716f9461af124..a17bd98e3cf6ef9365dbffcf410a980f1c72484b 100644
+--- a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
++++ b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
+@@ -128,9 +128,9 @@ public class FallingBlockEntity extends Entity {
+     @Override
+     public void tick() {
+         // Paper start - fix sand duping
+-        if (this.isRemoved()) {
++        /*if (this.isRemoved()) {
+             return;
+-        }
++        }*/
+         // Paper end - fix sand duping
+         if (this.blockState.isAir()) {
+             this.discard();
+@@ -145,9 +145,9 @@ public class FallingBlockEntity extends Entity {
+             this.move(MoverType.SELF, this.getDeltaMovement());
+ 
+             // Paper start - fix sand duping
+-            if (this.isRemoved()) {
++            /*if (this.isRemoved()) {
+                 return;
+-            }
++            }*/
+             // Paper end - fix sand duping
+ 
+             // Paper start - Configurable EntityFallingBlock height nerf

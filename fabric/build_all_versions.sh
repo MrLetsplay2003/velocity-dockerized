@@ -17,6 +17,9 @@ versions["1.18.2"]="openjdk17"
 versions["1.19.4"]="openjdk17"
 versions["1.20.1"]="openjdk17"
 versions["1.20.2"]="openjdk17"
+versions["1.20.4"]="openjdk17"
+versions["1.21.3"]="openjdk21"
+versions["1.21.4"]="openjdk21"
 
 for version in "${!versions[@]}"; do
 	java=${versions[$version]}

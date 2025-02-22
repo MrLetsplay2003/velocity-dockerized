@@ -17,6 +17,9 @@ versions["1.18.2"]="openjdk17 false"
 versions["1.19.4"]="openjdk17 true"
 versions["1.20.1"]="openjdk17 true"
 versions["1.20.2"]="openjdk17 true"
+versions["1.20.4"]="openjdk17 true"
+versions["1.21.3"]="openjdk21 true"
+versions["1.21.4"]="openjdk21 true"
 
 for version in "${!versions[@]}"; do
 	params=(${versions[$version]})
